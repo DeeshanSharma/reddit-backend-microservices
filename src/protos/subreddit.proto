@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message Subreddit {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message subredditCreateReqest {
+  string name = 1;
+  string description = 2;
+}
+
+message subredditRequest {
+  string id = 1;
+}
+
+service SubredditService {
+  rpc createSubreddit (subredditCreateReqest) returns (Subreddit);
+  rpc getSubreddit (subredditRequest) returns (Subreddit);
+}

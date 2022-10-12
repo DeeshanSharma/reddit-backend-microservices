@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+message Post {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  int32 likes = 4;
+  string author = 5;
+  string subreddit = 6;
+}
+
+message postCreateRequest {
+  string title = 1;
+  string description = 2;
+}
+
+message postRequest {
+  string id = 1;
+}
+
+message postUpdateRequest {
+  string postId = 1;
+  string userId = 2;
+  postCreateRequest post = 3;
+}
+
+message postLikeRequest {
+  string postId = 1;
+  string userId = 2;
+}
+
+message postCommentRequest {
+  string postId = 1;
+  string userId = 2;
+  string comment = 3;
+}
+
+message operationResponse {
+  bool error = 1;
+  int32 code = 2;
+  string message = 3;
+}
+
+service PostService {
+  rpc createPost (postCreateRequest) returns (Post);
+  rpc getPost (postRequest) returns (Post);
+  rpc updatePost (postUpdateRequest) returns (Post);
+  rpc likePost (postLikeRequest) returns (operationResponse);
+  rpc commentPost (postCommentRequest) returns (operationResponse);
+}

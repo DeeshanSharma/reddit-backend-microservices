@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+}
+
+message Token {
+  string token = 1;
+}
+
+message userCreateRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message userRequest {
+  string id = 1;
+}
+
+message tokenRequest {
+  string username = 1;
+  string email = 2;
+}
+
+message isAuthenticatedRequest {
+  Token token = 1;
+}
+
+message isAuthenticatedResponse {
+  bool error = 1;
+  User user = 2;
+}
+
+service UserService {
+  rpc createUser (userCreateRequest) returns (User);
+  rpc getUser (userRequest) returns (User);
+  rpc createToken (tokenRequest) returns (Token);
+  rpc isAuthenticated (isAuthenticatedRequest) returns (isAuthenticatedResponse);
+}
