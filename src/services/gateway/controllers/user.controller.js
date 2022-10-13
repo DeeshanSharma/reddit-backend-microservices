@@ -17,10 +17,7 @@ export const getUser = (req, res) => {
   userClient.getUser({ id }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
-    }
-    if (!payload) {
-      return res.json({ error: false, code: 404, message: 'User not found' });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json({ error: false, code: 200, message: 'User found', user: payload });
   });
@@ -31,8 +28,8 @@ export const loginUser = (req, res) => {
   if (!email || !password) return res.json({ error: true, code: 400, message: 'Email and password both are required' });
   userClient.createToken({ email, password }, (err, payload) => {
     if (err) {
-      console.err(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      console.error(err);
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json({ error: false, code: 200, message: 'Token created', token: payload.token });
   });
@@ -48,8 +45,8 @@ export const registerUser = (req, res) => {
     });
   userClient.createUser({ username, email, password }, (err, payload) => {
     if (err) {
-      console.err(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      console.error(err);
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json({ error: false, code: 200, message: 'Registration successful', user: payload });
   });

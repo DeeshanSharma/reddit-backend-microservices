@@ -17,7 +17,7 @@ export const getPost = (req, res) => {
   postClient.getPost({ id }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     if (!payload) return res.json({ error: false, code: 404, message: 'Post not found' });
     return res.json({ error: false, code: 200, message: 'Post found', post: payload });
@@ -31,7 +31,7 @@ export const createPost = (req, res) => {
   postClient.createPost({ title, description }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json({ error: false, code: 200, message: 'Post created successfully', post: payload });
   });
@@ -44,7 +44,7 @@ export const updatePost = (req, res) => {
   postClient.updatePost({ postId, userId: req.user.id, post }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json({ error: false, code: 200, message: 'Post updated successfully', post: payload });
   });
@@ -56,7 +56,7 @@ export const likePost = (req, res) => {
   postClient.likePost({ postId: id, userId: req.user.id }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json(payload);
   });
@@ -70,7 +70,7 @@ export const commentPost = (req, res) => {
   postClient.commentPost({ postId: id, userId: req.user.id, comment }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json(payload);
   });

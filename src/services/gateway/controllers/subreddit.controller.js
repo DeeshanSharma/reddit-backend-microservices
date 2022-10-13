@@ -17,7 +17,7 @@ export const getSubreddit = (req, res) => {
   subredditClient.getSubreddit({ id }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json({ error: false, code: 200, message: 'Subreddit found', subreddit: payload });
   });
@@ -30,7 +30,7 @@ export const createSubreddit = (req, res) => {
   subredditClient.createSubreddit({ name: name.trim(), description: description.trim() }, (err, payload) => {
     if (err) {
       console.error(err);
-      return res.json({ error: true, code: 500, message: err.message });
+      return res.json({ error: true, code: 500, message: err.details });
     }
     return res.json({ error: false, code: 200, message: 'Subreddit created successfully', subreddit: payload });
   });
