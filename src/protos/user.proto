@@ -21,8 +21,8 @@ message userRequest {
 }
 
 message tokenRequest {
-  string username = 1;
-  string email = 2;
+  string email = 1;
+  string password = 2;
 }
 
 message isAuthenticatedRequest {
