@@ -1,9 +1,11 @@
-import express from 'express';
-import router from './user.routes';
+import { Router } from 'express';
+import postRouter from './post.routes.js';
+import subredditRouter from './subreddit.routes.js';
+import userRouter from './user.routes.js';
 
-const router = express.Router();
+const router = Router();
 
-router.use('/user', router);
+router.use('/user', userRouter);
 router.use('/post', postRouter);
 router.use('/subreddit', subredditRouter);
 
