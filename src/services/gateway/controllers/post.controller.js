@@ -25,10 +25,10 @@ export const getPost = (req, res) => {
 };
 
 export const createPost = (req, res) => {
-  const { title, description } = req.body;
-  if (!title || !description)
-    return res.json({ error: true, code: 400, message: 'Title and description of the post are required' });
-  postClient.createPost({ title, description }, (err, payload) => {
+  const { title, description, subredditId: subreddit } = req.body;
+  if (!title || !description || !subreddit)
+    return res.json({ error: true, code: 400, message: 'Title, description and subredditId of the post are required' });
+  postClient.createPost({ title, description, subreddit, author: req.user.id }, (err, payload) => {
     if (err) {
       console.error(err);
       return res.json({ error: true, code: 500, message: err.details });
@@ -39,7 +39,7 @@ export const createPost = (req, res) => {
 
 export const updatePost = (req, res) => {
   const { postId, post } = req.body;
-  if (!postId || !post || !post.title || !post.description)
+  if (!postId || !post)
     return res.json({ error: true, code: 400, message: 'Required fields missing' });
   postClient.updatePost({ postId, userId: req.user.id, post }, (err, payload) => {
     if (err) {

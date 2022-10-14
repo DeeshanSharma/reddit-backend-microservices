@@ -15,7 +15,7 @@ postRouter.post('/create', createPost);
 
 postRouter.put('/update', updatePost);
 
-postRouter.post('/like/:id', likePost);
+postRouter.put('/like/:id', likePost);
 
 postRouter.post('/comment/:id', commentPost);
 

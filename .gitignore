@@ -17,3 +17,6 @@ coverage
 
 # Vim swap files
 .*.swp
+
+# mongodb playground files
+*.mongodb

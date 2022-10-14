@@ -9,13 +9,26 @@ message Post {
   string subreddit = 6;
 }
 
+message Comment {
+  string id = 1;
+  string comment = 2;
+  string author = 3;
+}
+
 message postCreateRequest {
   string title = 1;
   string description = 2;
+  string author = 3;
+  string subreddit = 4;
 }
 
 message postRequest {
   string id = 1;
+}
+
+message postResponse {
+  Post post = 1;
+  repeated Comment comments = 2;
 }
 
 message postUpdateRequest {
@@ -43,7 +56,7 @@ message operationResponse {
 
 service PostService {
   rpc createPost (postCreateRequest) returns (Post);
-  rpc getPost (postRequest) returns (Post);
+  rpc getPost (postRequest) returns (postResponse);
   rpc updatePost (postUpdateRequest) returns (Post);
   rpc likePost (postLikeRequest) returns (operationResponse);
   rpc commentPost (postCommentRequest) returns (operationResponse);

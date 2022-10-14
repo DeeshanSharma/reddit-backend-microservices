@@ -51,7 +51,7 @@ export const isAuthenticated = async (call, cb) => {
     if (!token) throw new Error('Invalid token');
     const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (!payload) throw new Error('Invalid token');
-    const user = await userModel.findById(payload.id, { id: '$_id', _id: 0, email: 1, username: 1 });
+    const user = await userModel.findById(payload.id, { id: '$_id', _id: 0, email: 1, username: 1 }).lean();
     if (!user) throw new Error('Unauthorized');
     cb(null, { error: false, user });
   } catch (error) {
