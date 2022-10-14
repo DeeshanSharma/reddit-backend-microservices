@@ -25,8 +25,9 @@ export const getUser = (req, res) => {
 
 export const loginUser = (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return res.json({ error: true, code: 400, message: 'Email and password both are required' });
-  userClient.createToken({ email, password }, (err, payload) => {
+  if (!email.trim() || !password.trim())
+    return res.json({ error: true, code: 400, message: 'Email and password both are required' });
+  userClient.createToken({ email: email.trim(), password: password.trim() }, (err, payload) => {
     if (err) {
       console.error(err);
       return res.json({ error: true, code: 500, message: err.details });
@@ -37,17 +38,20 @@ export const loginUser = (req, res) => {
 
 export const registerUser = (req, res) => {
   const { username, email, password } = req.body;
-  if (!username || !email || !password)
+  if (!username.trim() || !email.trim() || !password.trim())
     return res.json({
       error: true,
       code: 400,
       message: 'Username, email and password are required for registration',
     });
-  userClient.createUser({ username, email, password }, (err, payload) => {
-    if (err) {
-      console.error(err);
-      return res.json({ error: true, code: 500, message: err.details });
+  userClient.createUser(
+    { username: username.trim(), email: email.trim(), password: password.trim() },
+    (err, payload) => {
+      if (err) {
+        console.error(err);
+        return res.json({ error: true, code: 500, message: err.details });
+      }
+      return res.json({ error: false, code: 200, message: 'Registration successful', user: payload });
     }
-    return res.json({ error: false, code: 200, message: 'Registration successful', user: payload });
-  });
+  );
 };

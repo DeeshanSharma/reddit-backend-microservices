@@ -26,21 +26,23 @@ export const getPost = (req, res) => {
 
 export const createPost = (req, res) => {
   const { title, description, subredditId: subreddit } = req.body;
-  if (!title || !description || !subreddit)
+  if (!title.trim() || !description.trim() || !subreddit)
     return res.json({ error: true, code: 400, message: 'Title, description and subredditId of the post are required' });
-  postClient.createPost({ title, description, subreddit, author: req.user.id }, (err, payload) => {
-    if (err) {
-      console.error(err);
-      return res.json({ error: true, code: 500, message: err.details });
+  postClient.createPost(
+    { title: title.trim(), description: description.trim(), subreddit, author: req.user.id },
+    (err, payload) => {
+      if (err) {
+        console.error(err);
+        return res.json({ error: true, code: 500, message: err.details });
+      }
+      return res.json({ error: false, code: 200, message: 'Post created successfully', post: payload });
     }
-    return res.json({ error: false, code: 200, message: 'Post created successfully', post: payload });
-  });
+  );
 };
 
 export const updatePost = (req, res) => {
   const { postId, post } = req.body;
-  if (!postId || !post)
-    return res.json({ error: true, code: 400, message: 'Required fields missing' });
+  if (!postId || !post) return res.json({ error: true, code: 400, message: 'Required fields missing' });
   postClient.updatePost({ postId, userId: req.user.id, post }, (err, payload) => {
     if (err) {
       console.error(err);
@@ -67,7 +69,7 @@ export const commentPost = (req, res) => {
   const { comment } = req.body;
   if (!id) return res.json({ error: true, code: 400, message: 'Post ID must be provided' });
   if (!comment.trim()) return res.json({ error: true, code: 400, message: 'Valid comment is required' });
-  postClient.commentPost({ postId: id, userId: req.user.id, comment }, (err, payload) => {
+  postClient.commentPost({ postId: id, userId: req.user.id, comment: comment.trim() }, (err, payload) => {
     if (err) {
       console.error(err);
       return res.json({ error: true, code: 500, message: err.details });
