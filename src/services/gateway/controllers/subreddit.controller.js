@@ -27,11 +27,14 @@ export const createSubreddit = (req, res) => {
   const { name, description } = req.body;
   if (!name.trim() || !description.trim())
     return res.json({ error: true, code: 400, message: 'Invalid name or description' });
-  subredditClient.createSubreddit({ name: name.trim(), description: description.trim() }, (err, payload) => {
-    if (err) {
-      console.error(err);
-      return res.json({ error: true, code: 500, message: err.details });
+  subredditClient.createSubreddit(
+    { name: name.trim(), description: description.trim(), author: req.user.id },
+    (err, payload) => {
+      if (err) {
+        console.error(err);
+        return res.json({ error: true, code: 500, message: err.details });
+      }
+      return res.json({ error: false, code: 200, message: 'Subreddit created successfully', subreddit: payload });
     }
-    return res.json({ error: false, code: 200, message: 'Subreddit created successfully', subreddit: payload });
-  });
+  );
 };

@@ -4,11 +4,13 @@ message Subreddit {
   string id = 1;
   string name = 2;
   string description = 3;
+  string author = 4;
 }
 
 message subredditCreateReqest {
   string name = 1;
   string description = 2;
+  string author = 3;
 }
 
 message subredditRequest {
